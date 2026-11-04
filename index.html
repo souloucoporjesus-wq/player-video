@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Player</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; color: #ccc; font: 14px system-ui, sans-serif; }
+  iframe { display: block; width: 100%; height: 100%; border: 0; }
+  p { padding: 16px; }
+</style>
+</head>
+<body>
+<script>
+// Página intermediária do painel de dieta e treino: recebe ?v=<id do vídeo> e mostra o player do YouTube.
+// Existe porque o painel abre como arquivo no computador e, de arquivo, o YouTube recusa o player (Erro 153).
+// Daqui, com endereço web, ele aceita. Não guarda nem mostra nenhum dado pessoal.
+(function () {
+  var id = new URLSearchParams(location.search).get("v") || "";
+  if (!/^[A-Za-z0-9_-]{11}$/.test(id)) {
+    document.body.innerHTML = "<p>Vídeo não informado.</p>";
+    return;
+  }
+  var f = document.createElement("iframe");
+  f.src = "https://www.youtube-nocookie.com/embed/" + id + "?playsinline=1&rel=0&autoplay=1";
+  f.title = "Vídeo de execução do exercício";
+  f.referrerPolicy = "strict-origin-when-cross-origin";
+  f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+  f.allowFullscreen = true;
+  document.body.appendChild(f);
+})();
+</script>
+</body>
+</html>
